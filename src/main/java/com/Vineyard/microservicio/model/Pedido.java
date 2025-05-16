@@ -1,7 +1,7 @@
 package com.Vineyard.microservicio.model;
 
-import java.util.ArrayList;
-
+import java.time.LocalDate;
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,17 +14,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class Pedido {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+@   Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer id;
+
+@Column(name = "cliente_id")
+private Long clienteId;
 
 
-@ManyToOne
-@JoinColumn(name = "cliente_id", nullable = false)
-private Cliente cliente;
+@ElementCollection
+@CollectionTable(name = "PEDIDO_PRODUCTOS", joinColumns = @JoinColumn(name = "PEDIDO_ID"))
+@Column(name = "producto_id")
+private List<Long> productoIds;
 
 
-@Column(nullable =  true)   
-private ArrayList<Producto> productos;
+@Column(name = "fecha")
+private LocalDate fecha;
 
+
+@Column(name = "total")
+private double total;
 }
