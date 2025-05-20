@@ -79,10 +79,14 @@ public ResponseEntity<List<Pedido>> obtenerUltimosPedidos() {
 }
 
 // Post
-//{"clienteId":1,
-//"productoIds":[1,2],
-//"fecha":"2025-05-16",
-//"total":499.99}
+
+{
+//"clienteId": 1,
+//"productoIds": [1, 2, 3],
+//"fecha": "2025-05-16",
+//"total": 499.99
+}
+
 
 @PostMapping
 public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedido) {
