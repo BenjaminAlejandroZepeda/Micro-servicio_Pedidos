@@ -3,6 +3,9 @@ package com.Vineyard.microservicio.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,27 +17,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Pedido {
-@Id
+    public class Pedido {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+        private Long id;
 
-@Column(name = "cliente_id")
-private Long clienteId;
+    @Column(name = "cliente_id")
+        private Long clienteId;
 
-// Crea una entidad aparte relacionada con pedidos con una lista [id: 1, pedido 1, id: 1, pedido 2]
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<PedidoProducto> productos = new ArrayList<>();
 
-@ElementCollection
-@CollectionTable(name = "PEDIDO_PRODUCTOS", joinColumns = @JoinColumn(name = "PEDIDO_ID"))
-@Column(name = "producto_id")
-private List<Long> productoIds = new ArrayList<>();
+    @Column(name = "fecha")
+        private LocalDate fecha;
 
-
-
-@Column(name = "fecha")
-private LocalDate fecha;
-
-
-@Column(name = "total")
-private double total;
+    @Column(name = "total")
+        private double total;
 }

@@ -11,27 +11,27 @@ import com.Vineyard.microservicio.model.Pedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 
 
-// Buscar pedidos por cliente
-List<Pedido> findByClienteId(Long clienteId);
+    // Buscar pedidos por cliente
+    List<Pedido> findByClienteId(Long clienteId);
 
 
-// Buscar pedidos por fecha exacta
-List<Pedido> findByFecha(LocalDate fecha);
+    // Buscar pedidos por fecha exacta
+    List<Pedido> findByFecha(LocalDate fecha);
 
 
-// Buscar pedidos entre fechas
-List<Pedido> findByFechaBetween(LocalDate desde, LocalDate hasta);
+    // Buscar pedidos entre fechas
+    List<Pedido> findByFechaBetween(LocalDate desde, LocalDate hasta);
 
 
-// Contar pedidos por cliente
-long countByClienteId(Long clienteId);
+    // Contar pedidos por cliente
+    long countByClienteId(Long clienteId);
 
 
-// Obtener los pedidos más recientes (ordenados por fecha descendente)
-List<Pedido> findTop10ByOrderByFechaDesc();
+    // Obtener los pedidos más recientes (ordenados por fecha descendente)
+    List<Pedido> findTop10ByOrderByFechaDesc();
 
-// Eliminar pedido por id
-void deleteById(Long id);
+    // Eliminar pedido por id
+    void deleteById(Long id);
 
 
 }
