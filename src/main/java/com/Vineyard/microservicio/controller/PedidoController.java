@@ -60,19 +60,33 @@ private PedidoService pedidoService;
         return ResponseEntity.ok(pedidoService.obtenerUltimosPedidos());
 }
 
+/*
+ * {
+  "clienteId": 2,
+  "fecha": "2025-05-24",
+  "total": 0,
+  "productos": [
+    {
+      "id": {
+        "productoId": 8
+      },
+      "cantidad": 2
+    }
+  ]
+}
+ */
+
 @PostMapping
     public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedido) {
         Pedido nuevoPedido = pedidoService.guardarOActualizarPedido(pedido);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido);
 }
 
-
 @PutMapping("/{id}")
     public ResponseEntity<Pedido> actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
         Pedido actualizado = pedidoService.guardarOActualizarPedido(pedido);
             return ResponseEntity.ok(actualizado);
 }
-
 
 @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarPedido(@PathVariable Long id) {
