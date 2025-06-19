@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.Vineyard.microservicio.model.Pedido;
 import com.Vineyard.microservicio.service.PedidoService;
@@ -27,9 +28,13 @@ private PedidoService pedidoService;
 // Obtener pedidos por cliente
 // http://localhost:8080/api/v1/pedidos/cliente/1
 @GetMapping("/cliente/{clienteId}")
-    public ResponseEntity<List<Pedido>> obtenerPedidosPorCliente(@PathVariable Long clienteId) {
-        return ResponseEntity.ok(pedidoService.obtenerPedidosPorCliente(clienteId));
+public ResponseEntity<List<Pedido>> obtenerPedidosPorCliente(@PathVariable Long clienteId) {
+    if (clienteId == null || clienteId <= 0) {
+        return ResponseEntity.badRequest().build();
+    }
+    return ResponseEntity.ok(pedidoService.obtenerPedidosPorCliente(clienteId));
 }
+
 // Obtener pedidos por fecha exacta
 // http://localhost:8080/api/v1/pedidos/fecha
 // Ve a la pestaña Params y agrega Key: fecha Value: ####
@@ -76,17 +81,30 @@ private PedidoService pedidoService;
 }
  */
 
+
 @PostMapping
-    public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedido) {
-        Pedido nuevoPedido = pedidoService.guardarOActualizarPedido(pedido);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido);
+public ResponseEntity<?> crearPedido(@RequestBody Pedido pedido, BindingResult result) {
+    if (result.hasErrors()) {
+        return ResponseEntity.badRequest().body("Datos del pedido inválidos.");
+    }
+
+    Pedido nuevoPedido = pedidoService.guardarOActualizarPedido(pedido);
+    return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido);
 }
 
+
+
 @PutMapping("/{id}")
-    public ResponseEntity<Pedido> actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido) {
-        Pedido actualizado = pedidoService.guardarOActualizarPedido(pedido);
-            return ResponseEntity.ok(actualizado);
+public ResponseEntity<?> actualizarPedido(@PathVariable Long id, @RequestBody Pedido pedido, BindingResult result) {
+    if (result.hasErrors()) {
+        return ResponseEntity.badRequest().body("Datos del pedido inválidos.");
+    }
+
+    pedido.setId(id); // Asegura que el ID del path se use en el objeto
+    Pedido actualizado = pedidoService.guardarOActualizarPedido(pedido);
+    return ResponseEntity.ok(actualizado);
 }
+
 
 @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarPedido(@PathVariable Long id) {

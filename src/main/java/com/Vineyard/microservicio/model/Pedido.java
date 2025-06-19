@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-    @Column(name = "cliente_id")
+    
+    @Column(name = "cliente_id", nullable = false)
         private Long clienteId;
 
     /* Relación uno-a-muchos con PedidoProducto
@@ -39,7 +40,7 @@ import lombok.NoArgsConstructor;
     @JsonManagedReference
         private List<PedidoProducto> productos = new ArrayList<>();
 
-    @Column(name = "fecha")
+    @Column(name = "fecha", nullable = false)
         private LocalDate fecha;
 
     @Column(name = "total")
