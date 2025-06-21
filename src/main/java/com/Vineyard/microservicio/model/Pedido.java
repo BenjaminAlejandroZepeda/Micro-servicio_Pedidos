@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,13 +17,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-    public class Pedido {
+@Schema(description = "Entidad que representa un pedido")
+public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador de pedido")
         private Long id;
 
-    
+    @Schema(description = "Identificador de cliente")
     @Column(name = "cliente_id", nullable = false)
         private Long clienteId;
 
@@ -38,11 +40,12 @@ import lombok.NoArgsConstructor;
     * (relación bidireccional con @JsonBackReference en PedidoProducto).
     */
     @JsonManagedReference
+    @Schema(description = "Lista de productos")
         private List<PedidoProducto> productos = new ArrayList<>();
-
+    @Schema(description = "fecha del pedido")
     @Column(name = "fecha", nullable = false)
         private LocalDate fecha;
-
+    @Schema(description = "Total del pedido")
     @Column(name = "total")
         private double total;
 }

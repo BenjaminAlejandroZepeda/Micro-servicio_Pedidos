@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 // Implementa Serializable, lo cual es requisito de JPA para claves compuestas.
+@Schema(description = "Entidad que representa una lista de productos")
 public class PedidoProducto implements Serializable {
 
     //Clave primaria compuesta que identifica de forma única la relación entre un pedido y un producto
@@ -34,6 +36,7 @@ public class PedidoProducto implements Serializable {
      * no puedes usar directamente @ManyToMany.
      */
     @EmbeddedId
+    @Schema(description = "Identificador de la entidad intermedia Pedido-Producto")
     private PedidoProductoId id;
     
     /*
@@ -44,8 +47,9 @@ public class PedidoProducto implements Serializable {
     @MapsId("pedidoId")
     @JoinColumn(name = "pedido_id")
     @JsonBackReference
+    @Schema(description = "Pedido")
     private Pedido pedido;
-
+    @Schema(description = "Cantidad del pedido")
     @Column(name = "cantidad")
     private Integer cantidad;
 

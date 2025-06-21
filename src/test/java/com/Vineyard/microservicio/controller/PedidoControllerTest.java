@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +20,15 @@ import com.Vineyard.microservicio.service.PedidoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-
-
 import org.springframework.http.MediaType;
 
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
-@Data
-@NoArgsConstructor
+//Carga solo el contexto web de Spring MVC para probar controladores.
 @WebMvcTest(PedidoController.class)
 public class PedidoControllerTest {
-
+//Inyecta automáticamente dependencias 
     @Autowired
     private MockMvc mockMvc;
-
+//Inyecta un mock del repositorio en el contexto de Spring.
     @MockitoBean
     private PedidoService pedidoService;
 
@@ -46,7 +36,7 @@ public class PedidoControllerTest {
     private ObjectMapper objectMapper;
 
     private Pedido pedido;
-
+//Inicializa datos de prueba antes de cada test.
     @BeforeEach
     void setUp() {
         pedido = new Pedido();

@@ -20,18 +20,20 @@ import com.Vineyard.microservicio.model.Pedido;
 import com.Vineyard.microservicio.model.PedidoProducto;
 import com.Vineyard.microservicio.repository.PedidoRepository;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+// 
 @SpringBootTest
 public class PedidoServiceTest {
-
+//	Inyecta automáticamente dependencias 
     @Autowired
     private PedidoService pedidoService;
-
-    
+//Inyecta un mock del repositorio en el contexto de Spring.
     @MockitoBean
     private PedidoRepository pedidoRepository;
 
