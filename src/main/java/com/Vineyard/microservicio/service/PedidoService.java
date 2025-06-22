@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.Vineyard.microservicio.model.Pedido;
 import com.Vineyard.microservicio.model.PedidoProducto;
 import com.Vineyard.microservicio.repository.PedidoRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -89,4 +91,14 @@ private PedidoRepository pedidoRepository;
             }
         return pedidoRepository.save(pedido);
     }
+
+    public Pedido findById(Long id) {
+    return pedidoRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado con ID: " + id));
+    }
+
+    public Pedido save(Pedido pedido) {
+        return pedidoRepository.save(pedido);
+    }
+
 }

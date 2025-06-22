@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 // Implementa Serializable, lo cual es requisito de JPA para claves compuestas.
-@Schema(description = "Entidad que representa una lista de productos")
+@Schema(description = "Entidad que representa la relación entre pedido y producto")
 public class PedidoProducto implements Serializable {
 
     //Clave primaria compuesta que identifica de forma única la relación entre un pedido y un producto
@@ -36,8 +36,8 @@ public class PedidoProducto implements Serializable {
      * no puedes usar directamente @ManyToMany.
      */
     @EmbeddedId
-    @Schema(description = "Identificador de la entidad intermedia Pedido-Producto")
-    private PedidoProductoId id;
+    @Schema(description = "Identificador compuesto del pedido-producto")
+        private PedidoProductoId id;
     
     /*
      * @MapsId("pedidoId"): enlaza este campo con el campo `pedidoId` de la clave compuesta `PedidoProductoId`.
@@ -48,9 +48,10 @@ public class PedidoProducto implements Serializable {
     @JoinColumn(name = "pedido_id")
     @JsonBackReference
     @Schema(description = "Pedido")
-    private Pedido pedido;
+        private Pedido pedido;
+
     @Schema(description = "Cantidad del pedido")
     @Column(name = "cantidad")
-    private Integer cantidad;
+        private Integer cantidad;
 
 }

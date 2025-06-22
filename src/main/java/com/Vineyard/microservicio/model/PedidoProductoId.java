@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Entidad compuesta que representa el identificador entre entidad intermedia Pedido-Producto")
+@Schema(description = "Clave compuesta para la relación Pedido-Producto")
 public class PedidoProductoId implements Serializable{
 
     @Column(name = "pedido_id")
