@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,12 @@ import com.Vineyard.microservicio.model.Pedido;
 import com.Vineyard.microservicio.model.PedidoProducto;
 import com.Vineyard.microservicio.repository.PedidoRepository;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 // 
 @SpringBootTest
 public class PedidoServiceTest {
@@ -133,4 +133,43 @@ public class PedidoServiceTest {
         assertNotNull(resultado);
         assertEquals(pedido, producto.getPedido());
     }
+
+        
+    @Test
+    public void testFindById() {
+        Pedido pedido = new Pedido();
+        pedido.setId(1L);
+        when(pedidoRepository.findById(1L)).thenReturn(Optional.of(pedido));
+
+        Pedido resultado = pedidoService.findById(1L);
+
+        assertNotNull(resultado);
+        assertEquals(1L, resultado.getId());
+    }
+
+
+    @Test
+    public void testSavePedido() {
+        // Crear un pedido de prueba
+        Pedido pedido = new Pedido();
+        pedido.setId(1L);
+        pedido.setFecha(LocalDate.now());
+
+        // Simular el comportamiento del repositorio
+        when(pedidoRepository.save(pedido)).thenReturn(pedido);
+
+        // Ejecutar el método del servicio
+        Pedido resultado = pedidoService.save(pedido);
+
+        // Verificar resultados
+        assertNotNull(resultado);
+        assertEquals(pedido.getId(), resultado.getId());
+        assertEquals(pedido.getFecha(), resultado.getFecha());
+
+        // Verificar que el repositorio fue llamado correctamente
+        verify(pedidoRepository, times(1)).save(pedido);
+    }
+
+
+
 }
