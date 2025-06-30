@@ -5,8 +5,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.CollectionModel;
@@ -28,7 +26,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/v1/pedidos")
@@ -42,10 +39,8 @@ public class PedidoController {
     @Autowired
     private PedidoModelAssembler assembler;
 
-
 //Swagger
 // http://localhost:8080/doc/swagger-ui/index.html
-
 
 // Obtener todos los pedidos
 // http://localhost:8080/api/v1/pedidos
@@ -56,10 +51,16 @@ public class PedidoController {
         @ApiResponse(responseCode = "404", description = "Pedidos no encontrados")
     })
         public ResponseEntity<CollectionModel<EntityModel<Pedido>>> listarPedidos() {
+        // Se invoca pedidoService.listarPedidos() para obtener la lista de pedidos desde la capa de servicio.
         List<Pedido> pedidos = pedidoService.listarPedidos();
+
+        // Si la lista está vacía, se devuelve un 404 Not Found.
         if (pedidos.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
+        // Conversión a HATEOAS
+        //Cada Pedido se transforma en un EntityModel<Pedido> usando un assembler.
         List<EntityModel<Pedido>> pedidosModel = pedidos.stream()
             .map(assembler::toModel)
             .toList();
@@ -67,10 +68,9 @@ public class PedidoController {
             pedidosModel,
             linkTo(methodOn(PedidoController.class).listarPedidos()).withSelfRel()
         );
+
         return ResponseEntity.ok(collectionModel);
         }
-
-
 
 // Obtener pedidos por cliente
 // http://localhost:8080/api/v1/pedidos/cliente/1
